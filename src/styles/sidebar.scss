@@ -1,0 +1,106 @@
+#app {
+  // 主体区域
+  .main-container {
+    min-height: 100%;
+    transition: margin-left .28s;
+    margin-left: 180px;
+  }
+  // 侧边栏
+  .sidebar-container {
+    .horizontal-collapse-transition {
+      transition: 0s width ease-in-out, 0s padding-left ease-in-out, 0s padding-right ease-in-out;
+    }
+    transition: width .28s;
+    width: 180px !important;
+    height: 100%;
+    position: fixed;
+    font-size: 0px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1001;
+    overflow: hidden;
+    background: $silderBackgroundColor;
+    a {
+      display: inline-block;
+      width: 100%;
+    }
+    .svg-icon {
+      margin-right: 16px;
+    }
+    .el-menu {
+      border: none;
+      background-color: $silderBackgroundColor;
+      width: 100% !important;
+    }
+    .sidebar-logo {
+      height: 64px;
+      background: $silderLogoBackgroundColor;
+    }
+  }
+  .hideSidebar {
+    .sidebar-container {
+      width: 36px !important;
+    }
+    .main-container {
+      margin-left: 36px;
+    }
+    .submenu-title-noDropdown {
+      padding-left: 5px !important;
+      position: relative;
+      .el-tooltip {
+        padding: 0 5px !important;
+      }
+    }
+    .el-submenu {
+      & > .el-submenu__title {
+        padding-left: 5px !important;
+        &:hover {
+          background-color: $silderSubItemBackgroundHoverColor !important;
+        }
+        & > span {
+          height: 0;
+          width: 0;
+          overflow: hidden;
+          visibility: hidden;
+          display: inline-block;
+        }
+        .el-submenu__icon-arrow {
+          display: none;
+        }
+
+      }
+    }
+    .el-menu-item{
+      padding: 0;
+    }
+  }
+  .nest-menu .el-submenu > .el-submenu__title,
+  .el-submenu .el-menu-item {
+    padding-left: 50px !important;
+    min-width: 180px !important;
+    background-color: $silderSubItemBackgroundColor !important;
+    &:hover {
+      color: #fff !important;
+      background-color: $silderSubItemBackgroundHoverColor !important;
+    }
+  }
+  .el-menu--collapse .el-menu .el-submenu {
+    min-width: 180px !important;
+  }
+
+  .el-submenu__title {
+    &:hover {
+      color: #fff !important;
+      background-color: $silderBackgroundColor !important;
+    }
+
+  }
+  .submenu-title-noDropdown {
+    background-color: $silderBackgroundColor !important;
+    &:hover {
+      color: #fff !important;
+    }
+  }
+
+}
