@@ -28,7 +28,7 @@ const dynamicRouters = [
     component: Layout,
     redirect: '/dashboard',
     name: '首页',
-    hidden: true,
+    // hidden: true,
     children: [{
       path: 'dashboard',
       component: () => import('@/modules/dashboard/index')
