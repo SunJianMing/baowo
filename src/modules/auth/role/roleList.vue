@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form size="small" :inline="true" label-width="120px">
       <el-form-item label="角色名：">
-        <el-input v-model="form.formData.roleName" placeholder="请输入角色名"></el-input>
+        <el-input v-model="form.formData.roleName" placeholder="请输入角色名11"></el-input>
       </el-form-item>
       <el-form-item label="更新时间：">
         <el-date-picker

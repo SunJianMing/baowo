@@ -21,37 +21,63 @@ import Layout from '../modules/layout/Layout'
   }
 **/
 const staticRoutes = [
+  // {
+  //   path: '/plugin',
+  //   component: Layout,
+  //   redirect: '/plugin/pluginList',
+  //   name: '插件管理',
+  //   children: [{
+  //     name: '插件列表',
+  //     meta: { title: '插件列表', icon: '' },
+  //     path: 'pluginList',
+  //     component: () => import('@/modules/plugin/pluginList')
+  //   }]
+  // },
   {
-    path: '/plugin',
+    path: '/assessor',
     component: Layout,
-    redirect: '/plugin/pluginList',
-    name: '插件管理',
-    children: [{
-      name: '插件列表',
-      meta: { title: '插件列表', icon: '' },
-      path: 'pluginList',
-      component: () => import('@/modules/plugin/pluginList')
-    }]
-  },
-  {
-    path: '/test',
-    component: Layout,
-    redirect: '/test/accountList',
-    name: '菜单示例',
-    meta: { title: '菜单示例', icon: '' },
-    children: [{
-      name: '测试列表1',
-      meta: { title: '测试列表1', icon: '' },
-      path: 'accountList',
-      component: () => import('@/modules/auth/account/accountList')
+    redirect: '/assessor/assessorList',
+    name: '评价人员',
+    meta: { title: '评价人员', icon: '' },
+    children: [
+    {
+      name: '新建评价人员',
+      meta: { title: '新建评价人员', icon: '' },
+      path: 'addAssessor',
+      hidden:true,
+      component: () => import('@/modules/bwcar/addAssessor')
     },
     {
-      name: '测试列表2',
-      meta: { title: '测试列表2', icon: '' },
-      path: 'roleList',
-      component: () => import('@/modules/auth/role/roleList')
-    }]
+      name: '评价人员管理',
+      meta: { title: '评价人员管理', icon: '' },
+      path: 'assessorList',
+      component: () => import('@/modules/bwcar/assessorList')
+    }
+  ]
+  },
+  {
+    path: '/active',
+    component: Layout,
+    redirect: '/active/activeList',
+    name: '评价活动',
+    meta: { title: '评价活动', icon: '' },
+    children: [
+    {
+      name: '新建评价活动',
+      meta: { title: '新建评价活动', icon: '' },
+      path: 'addActive',
+      hidden:true,
+      component: () => import('@/modules/bwcar/addAssessor')
+    },
+    {
+      name: '评价活动管理',
+      meta: { title: '评价活动管理', icon: '' },
+      path: 'activeList',
+      component: () => import('@/modules/bwcar/activeList')
+    }
+  ]
   }
+
 ]
 
 export default staticRoutes

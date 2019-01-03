@@ -40,6 +40,7 @@ const dynamicRouters = [
       component: () => import('@/modules/auth/accountCenter/accountCenter')
     }]
   }
+
 ]
 
 export default new Router({

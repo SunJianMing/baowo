@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form size="small" :inline="true" label-width="120px">
         <el-form-item label="用户名：">
-        <el-input v-model="form.formData.username" placeholder="请输入用户名"></el-input>
+        <el-input v-model="form.formData.username" placeholder="请输入用户名a"></el-input>
     </el-form-item>
     <el-form-item label="姓名：">
         <el-input v-model="form.formData.realname" placeholder="请输入姓名"></el-input>
