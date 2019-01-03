@@ -1,3 +1,4 @@
+
 <template>
   <div class="app-container">
     <el-form size="small" :inline="true" label-width="120px">
@@ -227,6 +228,7 @@
         this.isAddDialogVisible = true
         this.$store.dispatch('resetAssessorDetailData')
         if (this.$refs.addView !== null && this.$refs.addView !== undefined) {
+
           this.$refs.addView.setup('')
         }
       },

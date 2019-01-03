@@ -21,7 +21,7 @@
             <el-form size="small" class="wt-form-btns" :inline="true" label-width="120px">
                 <el-form-item class="search-form-btns">
 
-                        <el-button  @click="toAdd">搜索</el-button>
+                        <el-button  @click="search">搜索</el-button>
                         <el-button  @click="reset">重置</el-button>
 
 
@@ -30,11 +30,11 @@
         </div>
         <div class="app-container">
           <div class='add'>
-            <el-button type="primary" icon="el-icon-plus" size="small" @click='addAssessor' >新建评价人员</el-button>
+            <el-button type="primary" icon="el-icon-plus" size="small" @click='toAdd' >新建评价类型</el-button>
             <el-button size="small">导出</el-button>
           </div>
           <el-table
-            :data="tableData3"
+            :data="result.list"
             height="auto"
             style="width: 100%"
             :default-sort = "{prop: 'date', order: 'descending'}"
@@ -107,10 +107,10 @@
               align='center'
               >
               <template slot-scope="scope">
-                <el-button type='text' size="small">查看</el-button>
-                <el-button type="text" size="small">编辑</el-button>
+                <el-button type='text' size="small" @click="toView(scope.row)">查看</el-button>
+                <el-button type="text" size="small" @click="toEdit(scope.row)">编辑</el-button>
                 <el-button type='text' class='button-pink' size="small">禁用</el-button>
-                <el-button type='text' class='button-delete' size="small" @click=''>删除</el-button>
+                <el-button type='text' class='button-delete' size="small" @click="toDelete(scope.row)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -127,12 +127,41 @@
           </div>
         </div>
 
+         <!--添加-->
+      <div class="wt-dialog">
+          <el-dialog title="添加" :visible.sync="isAddDialogVisible" :close-on-press-escape="false"
+                     :close-on-click-modal="false" :modal-append-to-body="false" lock-scroll>
+              <AssessorEdit @wt-dialog-close="isAddDialogVisible = false"
+                           @wt-dialog-refresh="(isAddDialogVisible = false) | requestFormList()"
+                           ref="addView" viewType="add"></AssessorEdit>
+          </el-dialog>
+      </div>
+
+      <!--查看-->
+      <div class="wt-dialog">
+          <el-dialog title="查看" :visible.sync="isViewDialogVisible" :close-on-press-escape="false"
+                     :close-on-click-modal="false" :modal-append-to-body="false" lock-scroll>
+              <AssessorView @wt-dialog-close="isViewDialogVisible = false" @wt-dialog-refresh="(isViewDialogVisible = false) "
+                           ref="viewView" viewType="view"></AssessorView>
+          </el-dialog>
+      </div>
+
+      <!--编辑-->
+      <div class="wt-dialog">
+          <el-dialog title="编辑" :visible.sync="isEditDialogVisible" :close-on-press-escape="false"
+                     :close-on-click-modal="false" :modal-append-to-body="false" lock-scroll>
+              <AssessorEdit @wt-dialog-close="isEditDialogVisible = false"
+                           @wt-dialog-refresh="(isEditDialogVisible = false) | requestFormList()"
+                           ref="editView" viewType="edit"></AssessorEdit>
+          </el-dialog>
+      </div>
     </div>
 </template>
 <script>
 
 import request from '@/utils/request'
-
+import AssessorEdit from './add'
+import AssessorView from './view'
 export default {
   data() {
     return {
@@ -150,9 +179,6 @@ export default {
             sortOrder: ''
           }
         },
-      //搜索条件
-
-
       // 时间数据
       pickerOptions: {
         shortcuts: [
@@ -192,24 +218,31 @@ export default {
         ]
       },
       // 列表数据
-      tableData3: [{
-        name: '王小虎',
-        sex: '男',
-        height: '175cm',
-        weight: '60k',
-        beenDriving: '5年',
-        status: '启用',
-        createTime:'2016-08-21'
-      },{
-        name: '王小虎',
-        sex: '男',
-        height: '175cm',
-        weight: '60k',
-        beenDriving: '5年',
-        status: '启用',
-        createTime:'2016-08-20'
-      }],
-        currentPage: 2
+
+        currentPage: 2,
+        result:{ //  结果数据
+          list:[{
+            name: '王小虎',
+            sex: '男',
+            height: '175cm',
+            weight: '60k',
+            beenDriving: '5年',
+            status: '启用',
+            createTime:'2016-08-21'
+          },{
+            name: '王小虎',
+            sex: '男',
+            height: '175cm',
+            weight: '60k',
+            beenDriving: '5年',
+            status: '启用',
+            createTime:'2016-08-20'
+          }]
+        },
+        isAddDialogVisible:false,
+        isViewDialogVisible:false,
+        isEditDialogVisible:false
+
     }
   },
   activated(){
@@ -223,31 +256,67 @@ export default {
           method: 'post',
           data: this.form
         }).then(response => {
-          this.result = response.data
-          this.form.isListLoading = false
+          // this.result = response.data
+          // this.form.isListLoading = false
         }).catch(() => {
           this.form.isListLoading = false
         })
 
     },
-    addAssessor(){
-      this.$router.push('/assessor/addAssessor')
-    },
+
     // 搜索按钮
+    search(){},
     reset() {
 
     },
-    toAdd (){
 
-    },
     // page回调函数
      handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
-      }
+      },
+      /** ----操作相关-------*/
+      toAdd(){
+      this.isAddDialogVisible = true
+      if (this.$refs.addView !== null && this.$refs.addView !== undefined) {
 
+          this.$refs.addView.setup('')
+        }
+    },
+     toView(rowData) {
+        //  点击单条查看
+        this.isViewDialogVisible = true
+        console.log(rowData)
+        // this.$store.dispatch('queryAssessorDetailData', rowData.id)
+        if (this.$refs.editView !== null && this.$refs.editView !== undefined) {
+          this.$refs.editView.setup('')
+        }
+      },
+      toEdit(rowData) {
+        //  点击单条编辑
+        this.isEditDialogVisible = true
+        // this.$store.dispatch('queryAssessorDetailData', rowData.id)
+        if (this.$refs.editView !== null && this.$refs.editView !== undefined) {
+          this.$refs.editView.setup('')
+        }
+      },
+      toDelete(rowData) {
+        //  点击单条删除
+        this.$confirm('是否删除?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.requestDeleteMutil([rowData.id])
+        }).catch(() => {
+        })
+      },
+  },
+  components:{
+    AssessorEdit,
+    AssessorView
   }
 }
 </script>

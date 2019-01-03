@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// in development-env not use lazy-loading, because lazy-loading too many pages will cause webpack hot update too slow. so only in production use lazy-loading;
-// detail: https://panjiachen.github.io/vue-element-admin-site/#/lazy-loading
+// in development-env not use lazy-loading, because lazy-loading too many pages
+// will cause webpack hot update too slow. so only in production use
+// lazy-loading; detail:
+// https://panjiachen.github.io/vue-element-admin-site/#/lazy-loading
 
 Vue.use(Router)
 
@@ -21,63 +23,51 @@ import Layout from '../modules/layout/Layout'
   }
 **/
 const staticRoutes = [
-  // {
-  //   path: '/plugin',
-  //   component: Layout,
-  //   redirect: '/plugin/pluginList',
-  //   name: '插件管理',
-  //   children: [{
-  //     name: '插件列表',
-  //     meta: { title: '插件列表', icon: '' },
-  //     path: 'pluginList',
-  //     component: () => import('@/modules/plugin/pluginList')
-  //   }]
-  // },
-  {
-    path: '/assessor',
-    component: Layout,
-    redirect: '/assessor/assessorList',
-    name: '评价人员',
-    meta: { title: '评价人员', icon: '' },
-    children: [
+    // {   path: '/plugin',   component: Layout,   redirect: '/plugin/pluginList',
+    // name: '插件管理',   children: [{     name: '插件列表',     meta: { title: '插件列表',
+    // icon: '' },     path: 'pluginList',     component: () =>
+    // import('@/modules/plugin/pluginList')   }] },
     {
-      name: '新建评价人员',
-      meta: { title: '新建评价人员', icon: '' },
-      path: 'addAssessor',
-      hidden:true,
-      component: () => import('@/modules/bwcar/addAssessor')
+        path: '/personnel',
+        component: Layout,
+        redirect: '/personnel/list',
+        name: '评价人员',
+        meta: {
+            title: '评价人员',
+            icon: ''
+        },
+        children: [
+            {
+                name: '评价人员管理',
+                meta: {
+                    title: '评价人员管理',
+                    icon: ''
+                },
+                path: 'list',
+                component: () => import ('@/modules/personnel/list')
+            }
+        ]
     },
     {
-      name: '评价人员管理',
-      meta: { title: '评价人员管理', icon: '' },
-      path: 'assessorList',
-      component: () => import('@/modules/bwcar/assessorList')
-    }
-  ]
-  },
-  {
-    path: '/active',
-    component: Layout,
-    redirect: '/active/activeList',
-    name: '评价活动',
-    meta: { title: '评价活动', icon: '' },
-    children: [
-    {
-      name: '新建评价活动',
-      meta: { title: '新建评价活动', icon: '' },
-      path: 'addActive',
-      hidden:true,
-      component: () => import('@/modules/bwcar/addAssessor')
-    },
-    {
-      name: '评价活动管理',
-      meta: { title: '评价活动管理', icon: '' },
-      path: 'activeList',
-      component: () => import('@/modules/bwcar/activeList')
-    }
-  ]
+      path: '/evaluationType',
+      component: Layout,
+      redirect: '/evaluationType/list',
+      name: '评价类型',
+      meta: {
+          title: '评价类型',
+          icon: ''
+      },
+      children: [
+          {
+              name: '评价类型管理',
+              meta: {
+                  title: '评价类型管理',
+                  icon: ''
+              },
+              path: 'list',
+              component: () => import ('@/modules/evaluationtype/list')
+          }
+      ]
   }
-
-]
-
+];
 export default staticRoutes
