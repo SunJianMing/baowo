@@ -7,16 +7,17 @@
                 :inline="true"
                 label-width="80px"
             >
-                <el-form-item label="评价类型名称：">
+                <el-form-item label="评价对象名称：">
                     <el-input
                         v-model="form.formData.userName"
-                        placeholder=""
+                        placeholder="请输入评价对象名称"
                     ></el-input>
                 </el-form-item>
-                <el-form-item label="新建起始时间：">
+
+                <el-form-item label="所属评价类型">
                     <el-input
                         v-model="form.formData.createTime"
-                        placeholder=""
+                        placeholder="请输入评价类型名称"
                     ></el-input>
                 </el-form-item>
                 <el-form-item label="创建时间">
@@ -54,8 +55,7 @@
                     icon="el-icon-plus"
                     size="small"
                     @click='toAdd'
-                >新建评价类型</el-button>
-
+                >新建评价对象</el-button>
             </div>
             <el-table
                 :data="result.list"
@@ -67,15 +67,15 @@
 
                 <el-table-column
                     prop="name"
-                    label="评价类型名称"
+                    label="评价对象名称"
                     min-width="120"
                     max-width='180'
                     align='center'
                 >
                 </el-table-column>
                 <el-table-column
-                    label="评价类型图片"
-                    min-width="80"
+                    label="评价对象图片"
+                    min-width="110"
                     max-width='180'
                     align='center'
                 >
@@ -90,6 +90,14 @@
                     </template>
                 </el-table-column>
                 <el-table-column
+                  label='所属评价类型'
+                  min-width="110"
+                    max-width='180'
+                    align="center"
+                    prop='name1'
+                >
+                </el-table-column>
+                <el-table-column
                     prop="status"
                     label="状态"
                     min-width="80"
@@ -97,11 +105,12 @@
                     align='center'
                 >
                 </el-table-column>
+
                 <el-table-column
                     prop="createTime"
                     label="新建时间"
                     sortable
-                    min-width="80"
+                    min-width="110"
                     max-width='180'
                     align='center'
                 >
@@ -215,7 +224,7 @@ import AssessorView from "./view";
 export default {
     data() {
         return {
-            formListUrl: "/modules/evaluateType/evaluateTypeList",
+            formListUrl: "/modules/evaluateObject/evaluateObjectList",
             form: {
                 //  表单数据
 
@@ -288,7 +297,8 @@ export default {
                         name: "王小虎",
                         image: "./01.png",
                         status: "启用",
-                        createTime: "2016-08-21"
+                        createTime: "2016-08-21",
+                        name1: "汽车"
                     }
                 ]
             },

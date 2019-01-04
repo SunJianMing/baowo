@@ -13,16 +13,16 @@
                 class="wt-detail-form"
             >
                 <el-form-item
-                    label="评价类型名称："
+                    label="评价对象名称："
                     prop="userName"
                 >
                     <el-input
                         v-model="evaluateTypeDetailData.userName"
-                        placeholder="请输入评价类型名称"
+                        placeholder="请输入评价对象名称"
                     ></el-input>
                 </el-form-item>
                 <el-form-item
-                    label="评价类型图片："
+                    label="评价对象图片："
                     prop="typeImage"
                     v-model='evaluateTypeDetailData.picUrl'
                 >
@@ -44,16 +44,15 @@
                     </el-upload>
                 </el-form-item>
                 <el-form-item
-                    label='添加参数：'
+                    label='选择评价类型：'
                     prop="params"
                 >
-                    <el-input v-model='paramsValue' class='paramsValue'></el-input>
-                    <el-button size='small' @click='toParams'>增加</el-button>
-                    <el-button size='small' @click='resetParams'>重置</el-button>
+                    <el-button size='small' @click='toSelectType'>选择</el-button>
                 </el-form-item>
             </el-form>
+
         </div>
-        <div class="params-table">
+        <div class="params-table" v-if='(viewType =="edit"?true:isevaluateType) '>
             <el-table
                 style='width:100%'
                 height='200'
@@ -108,23 +107,41 @@
                 @click="onWtDialogClose"
             >关闭</el-button>
         </div>
-
-
+        <!-- 选择评价类型 -->
+        <div class="wt-dialog">
+            <el-dialog
+                title="选择评价类型"
+                :visible.sync="isAddDialogVisible"
+                :close-on-press-escape="false"
+                :close-on-click-modal="false"
+                :modal-append-to-body="false"
+                lock-scroll
+                width='40%'
+                :modal='false'
+                top='25vh'
+            >
+                <selectType
+                    @wt-dialog-close="isAddDialogVisible = false"
+                    @wt-dialog-refresh="(isAddDialogVisible = false) | (isevaluateType = true)"
+                    ref="addView"
+                    viewType="add"
+                ></selectType>
+            </el-dialog>
+        </div>
     </div>
 </template>
 
 <script>
 import request from "@/utils/request";
 import WtAuth from "@/components/WtAuth";
-import addParams from './addParams'
+import selectType from './selectType'
 import { mapState } from "vuex";
 
 export default {
-    name: "AssessorEdit",
     props: ["viewType"],
     components: {
         WtAuth,
-        addParams
+        selectType
     },
     data() {
         return {
@@ -135,7 +152,7 @@ export default {
             isSubmitLoading: false,
             rules: {
                 userName: [
-                    { required: true, message: "评价类型名称：", trigger: "blur" },
+                    { required: true, message: "评价对象名称：", trigger: "blur" },
                     {
                         validator: this.$wtValidator.ValidatorNotBlank,
                         message: "输入内容不能为空",
@@ -145,7 +162,9 @@ export default {
             },
             imageUrl: "", //图片url,
             tableData:[],
-            paramsValue:''
+            paramsValue:'',
+            isevaluateType:false,
+            isAddDialogVisible:false
 
         };
     },
@@ -154,10 +173,8 @@ export default {
             this.$refs["form"].resetFields();
         },
         /*  ------------------------- 交互按钮  -------------------------  */
-        toParams(){
-          if(!this.paramsValue) return;
-          this.tableData.push({id:Math.random(),paramsname:this.paramsValue});
-          this.paramsValue = ''
+        toSelectType(){
+          this.isAddDialogVisible = true;
         },
         resetParams(){
           this.paramsValue = ''

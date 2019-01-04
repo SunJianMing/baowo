@@ -68,6 +68,48 @@ const staticRoutes = [
               component: () => import ('@/modules/evaluationtype/list')
           }
       ]
-  }
+    },
+    {
+      path: '/evaluateObject',
+      component: Layout,
+      redirect: '/evaluateObject/list',
+      name: '评价对象',
+      meta: {
+          title: '评价对象',
+          icon: ''
+      },
+      children: [
+          {
+              name: '评价对象管理',
+              meta: {
+                  title: '评价对象管理',
+                  icon: ''
+              },
+              path: 'list',
+              component: () => import ('@/modules/evaluateObject/list')
+          }
+      ]
+    },
+    {
+      path: '/evaluateSurvey',
+      component: Layout,
+      redirect: '/evaluateSurvey/list',
+      name: '评价问卷',
+      meta: {
+          title: '评价问卷',
+          icon: ''
+      },
+      children: [
+          {
+              name: '评价问卷管理',
+              meta: {
+                  title: '评价问卷管理',
+                  icon: ''
+              },
+              path: 'list',
+              component: () => import ('@/modules/evaluateSurvey/list')
+          }
+      ]
+    }
 ];
 export default staticRoutes
